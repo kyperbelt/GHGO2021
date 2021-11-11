@@ -8,10 +8,113 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Resource",
+"class": "CompiledYarnProgram",
+"language": "GDScript",
+"path": "res://addons/gdyarn/compiled_yarn_program.gd"
+}, {
+"base": "Area2D",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://components/entity.gd"
+}, {
+"base": "Reference",
+"class": "MarkupRegion",
+"language": "GDScript",
+"path": "res://addons/gdyarn/core/dialogue/markup_regions.gd"
+}, {
+"base": "Reference",
+"class": "Value",
+"language": "GDScript",
+"path": "res://addons/gdyarn/core/value.gd"
+}, {
+"base": "Node",
+"class": "VariableStorage",
+"language": "GDScript",
+"path": "res://addons/gdyarn/core/variable_storage.gd"
+}, {
+"base": "Control",
+"class": "YarnDisplay",
+"language": "GDScript",
+"path": "res://addons/gdyarn/yarn_gui.gd"
+}, {
+"base": "Resource",
+"class": "YarnFile",
+"language": "GDScript",
+"path": "res://addons/gdyarn/yarnfile.gd"
+}, {
+"base": "EditorImportPlugin",
+"class": "YarnImporter",
+"language": "GDScript",
+"path": "res://addons/gdyarn/yarn_importer.gd"
+} ]
+_global_script_class_icons={
+"CompiledYarnProgram": "",
+"Entity": "",
+"MarkupRegion": "",
+"Value": "",
+"VariableStorage": "res://addons/gdyarn/assets/storage.png",
+"YarnDisplay": "res://addons/gdyarn/assets/display.PNG",
+"YarnFile": "",
+"YarnImporter": ""
+}
+
 [application]
 
 config/name="GithubGameOff2021"
 config/icon="res://icon.png"
+
+[autoload]
+
+NumberPlurals="*res://addons/gdyarn/autoloads/number_plurals.gd"
+YarnGlobals="*res://addons/gdyarn/autoloads/execution_states.gd"
+
+[display]
+
+window/size/width=256
+window/size/height=150
+window/size/test_width=1024
+window/size/test_height=600
+window/stretch/mode="2d"
+window/stretch/aspect="keep_width"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/gdyarn/plugin.cfg" )
+
+[input]
+
+move_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+attack={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+interact={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [physics]
 
@@ -19,4 +122,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+2d/snapping/use_gpu_pixel_snap=true
 environment/default_environment="res://default_env.tres"

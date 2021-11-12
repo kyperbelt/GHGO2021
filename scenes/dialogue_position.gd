@@ -6,10 +6,13 @@ export(NodePath) var _dialoguePointer
 export(NodePath) var _camera
 
 export(float) var targetRadius = 10
+export(float) var pointerThickness = 20
+
 
 var rootViewSize := Vector2()
 var viewportSize := Vector2()
 var camera : Camera2D = null
+
 
 var target = null
 var dialogueDisplay = null
@@ -67,8 +70,7 @@ func _process(_delta):
 		var dpos = dialogueDisplay.rect_position
 		dpos = newTargetPos * scale
 		dpos.x += -dialogueDisplay.rect_size.x * .5
-		dpos.y += -(dialogueDisplay.rect_size.y + targetRadius) if !isBottom else +(targetRadius * .5 + dialogueDisplay.rect_size.y * scale.y)
-
+		dpos.y += -(dialogueDisplay.rect_size.y + targetRadius) if !isBottom else targetRadius * 2
 
 		dpos.x = min(max(dpos.x,0),viewportSize.x * scale.x -dialogueDisplay.rect_size.x)
 		dpos.y = min(max(dpos.y,0), (viewportSize.y - dialogueDisplay.rect_size.y) * scale.y)
@@ -81,25 +83,35 @@ func _process(_delta):
 		if !dialoguePointer:
 			return
 
-		var cornerRect := Vector2()
+		var top  := Vector2()
+		var side := Vector2()
+		# length of right triangle sides
+		var thickThock :float = pointerThickness / sqrt(2)
 		if isBottom:
-			cornerRect.y = dialogueDisplay.get_end().y
+			top.y = dialogueDisplay.get_end().y
+			side.y = max(top.y - thickThock,top.y)
 		else:
-			cornerRect.x = dialogueDisplay.rect_position.y
+			top.y = dialogueDisplay.rect_position.y
+			side.y = min(top.y + thickThock,top.y+dialogueDisplay.rect_size.y-2)
+
+		var facingLeft = false
 
 		if target is Entity:
 			var targetEnt = target as Entity
-			var facingLeft = targetEnt.sprite.flip_h
+			facingLeft = targetEnt.sprite.flip_h
 			if facingLeft:
-				cornerRect.x = dialogueDisplay.rect_position.x
+				side.x = dialogueDisplay.rect_position.x
+				top.x = side.x + thickThock
 			else:
-				cornerRect.x = dialogueDisplay.rect_position.x + dialogueDisplay.rect_size.x
-		else:
-			cornerRect.x = dialogueDisplay.x
+				side.x = dialogueDisplay.rect_position.x + dialogueDisplay.rect_size.x
+				top.x = side.x - thickThock
 
+		var positionBase = newTargetPos * scale
+		var dist := 20
+		positionBase.x = positionBase.x + (-dist if facingLeft else dist)
+		dialoguePointer.polygon[0] = positionBase
 
-		dialoguePointer.polygon[0] = tarPos / scale
-		dialoguePointer.polygon[1] = Vector2()
-		dialoguePointer.polygon[2] = Vector2()
+		dialoguePointer.polygon[1] = top
+		dialoguePointer.polygon[2] = side
 
 		print(dialoguePointer)
